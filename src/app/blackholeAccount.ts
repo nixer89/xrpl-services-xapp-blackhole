@@ -96,10 +96,17 @@ export class BlackholeAccount implements OnInit, OnDestroy {
 
   errorLabel:string = null;
 
+  loadingBackend:boolean = true;
+  backendAvailable:boolean = false;
+
   @ViewChild('stepper') stepper: MatStepper;
 
   async ngOnInit() {
     this.loadingData = true;
+
+    this.loadingBackend = true;
+    this.backendAvailable = await this.xummService.ping();
+    this.loadingBackend = false;
 
     this.ottReceived = this.ottChanged.subscribe(async ottData => {
       //console.log("ottReceived: " + JSON.stringify(ottData));
